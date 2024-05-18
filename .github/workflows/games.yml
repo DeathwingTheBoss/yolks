@@ -16,14 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         game:
-          - altv
-          - arma3
-          - dayz                
-          - mohaa
-          - samp
-          - source
-          - valheim
-          - thebattleforwesnoth
+        - arma3
           
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +27,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5
         with:
           context: ./games/${{ matrix.game }}
@@ -65,7 +58,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5
         with:
           context: ./games/${{ matrix.game }}
