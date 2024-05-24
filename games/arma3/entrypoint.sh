@@ -226,7 +226,6 @@ CLIENT_MODS=$(RemoveDuplicates ${CLIENT_MODS}) # Remove duplicate mods from CLIE
 allMods=$(RemoveDuplicates ${allMods}) # Remove duplicate mods from allMods, if present
 allMods=$(echo $allMods | sed -e 's/;/ /g') # Convert from string to array
 ServerAndClientMods=$(RemoveDuplicates ${ServerAndClientMods})
-ServerAndClientMods=$(echo $ServerAndClientMods | sed -e 's/;/ /g')
 
 # Update everything (server and mods), if specified
 if [[ ${UPDATE_SERVER} == 1 ]]; then
