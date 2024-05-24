@@ -212,8 +212,8 @@ if [[ -n ${SERVERMODS} ]] && [[ ${SERVERMODS} != *\; ]]; then # Add server mods 
     allMods="${SERVERMODS};"
 	ServerAndClientMods="${SERVERMODS};"
 else
-    ServerAndClientMods="${SERVERMODS};"
-    allMods="${SERVERMODS};"
+    ServerAndClientMods=${SERVERMODS}
+    allMods=${SERVERMODS}
 fi
 if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specified optional mods to the mods list, while checking for trailing semicolon
     allMods+="${OPTIONALMODS};"
@@ -388,7 +388,6 @@ if [[ ${HC_NUM} > 0 ]]; then
     do
         if [[ ${HC_HIDE} == "1" ]];
         then
-		    echo ${ServerAndClientMods}
             ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} > /dev/null 2>&1 &
         else
             ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} &
