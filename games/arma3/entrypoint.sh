@@ -388,6 +388,7 @@ if [[ ${HC_NUM} > 0 ]]; then
     do
         if [[ ${HC_HIDE} == "1" ]];
         then
+		    echo ${ServerAndClientMods}
             ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} > /dev/null 2>&1 &
         else
             ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} &
