@@ -220,7 +220,7 @@ if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specifie
 else
     allMods+=${OPTIONALMODS}
 fi
-ServerAndClientMods=$CLIENT_MODS
+ServerAndClientMods+=$CLIENT_MODS
 allMods+=$CLIENT_MODS # Add all client-side mods to the master mod list
 CLIENT_MODS=$(RemoveDuplicates ${CLIENT_MODS}) # Remove duplicate mods from CLIENT_MODS, if present
 allMods=$(RemoveDuplicates ${allMods}) # Remove duplicate mods from allMods, if present
