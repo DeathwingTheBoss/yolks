@@ -212,8 +212,8 @@ if [[ -n ${SERVERMODS} ]] && [[ ${SERVERMODS} != *\; ]]; then # Add server mods 
     allMods="${SERVERMODS};"
 	ServerAndClientMods="${SERVERMODS};"
 else
-    ServerAndClientMods=${SERVERMODS}
-    allMods=${SERVERMODS}
+    ServerAndClientMods="${SERVERMODS};"
+    allMods="${SERVERMODS};"
 fi
 if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specified optional mods to the mods list, while checking for trailing semicolon
     allMods+="${OPTIONALMODS};"
