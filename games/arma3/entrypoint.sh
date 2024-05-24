@@ -21,7 +21,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 ## === ENVIRONMENT VARS ===
-# STARTUP, STARTUP_PARAMS, STEAM_USER, STEAM_PASS, SERVER_BINARY, MOD_FILE, MODIFICATIONS, SERVERMODS, OPTIONALMODS, UPDATE_SERVER, CLEAR_CACHE, VALIDATE_SERVER, MODS_LOWERCASE, STEAMCMD_EXTRA_FLAGS, CDLC, STEAMCMD_APPID, HC_NUM, SERVER_PASSWORD, HC_HIDE, STEAMCMD_ATTEMPTS, BASIC_URL, DISABLE_MOD_UPDATES, HC_MODS
+# STARTUP, STARTUP_PARAMS, STEAM_USER, STEAM_PASS, SERVER_BINARY, MOD_FILE, MODIFICATIONS, SERVERMODS, OPTIONALMODS, UPDATE_SERVER, CLEAR_CACHE, VALIDATE_SERVER, MODS_LOWERCASE, STEAMCMD_EXTRA_FLAGS, CDLC, STEAMCMD_APPID, HC_NUM, SERVER_PASSWORD, HC_HIDE, STEAMCMD_ATTEMPTS, BASIC_URL, DISABLE_MOD_UPDATES
 
 ## === GLOBAL VARS ===
 # validateServer, extraFlags, updateAttempt, modifiedStartup, allMods, CLIENT_MODS
@@ -210,7 +210,9 @@ elif [[ -n "${MOD_FILE}" ]]; then # If MOD_FILE is not null, warn user file is m
 fi
 if [[ -n ${SERVERMODS} ]] && [[ ${SERVERMODS} != *\; ]]; then # Add server mods to the master mods list, while checking for trailing semicolon
     allMods="${SERVERMODS};"
+	ServerAndClientMods="${SERVERMODS};"
 else
+    ServerAndClientMods=${SERVERMODS}
     allMods=${SERVERMODS}
 fi
 if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specified optional mods to the mods list, while checking for trailing semicolon
@@ -218,10 +220,13 @@ if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specifie
 else
     allMods+=${OPTIONALMODS}
 fi
+ServerAndClientMods=$CLIENT_MODS
 allMods+=$CLIENT_MODS # Add all client-side mods to the master mod list
 CLIENT_MODS=$(RemoveDuplicates ${CLIENT_MODS}) # Remove duplicate mods from CLIENT_MODS, if present
 allMods=$(RemoveDuplicates ${allMods}) # Remove duplicate mods from allMods, if present
 allMods=$(echo $allMods | sed -e 's/;/ /g') # Convert from string to array
+ServerAndClientMods=$(RemoveDuplicates ${ServerAndClientMods})
+ServerAndClientMods=$(echo $ServerAndClientMods | sed -e 's/;/ /g')
 
 # Update everything (server and mods), if specified
 if [[ ${UPDATE_SERVER} == 1 ]]; then
@@ -384,9 +389,9 @@ if [[ ${HC_NUM} > 0 ]]; then
     do
         if [[ ${HC_HIDE} == "1" ]];
         then
-            ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${HC_MODS}" ${STARTUP_PARAMS} > /dev/null 2>&1 &
+            ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} > /dev/null 2>&1 &
         else
-            ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${HC_MODS}" ${STARTUP_PARAMS} &
+            ./${SERVER_BINARY} -client -connect=127.0.0.1 -port=${SERVER_PORT} -password="${SERVER_PASSWORD}" -profiles=./serverprofile -bepath=./battleye -mod="${ServerAndClientMods}" ${STARTUP_PARAMS} &
         fi
         echo -e "${GREEN}[STARTUP]:${CYAN} Headless Client $i${NC} launched."
     done
