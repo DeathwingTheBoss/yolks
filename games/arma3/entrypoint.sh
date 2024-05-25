@@ -211,6 +211,7 @@ fi
 if [[ -n ${SERVERMODS} ]] && [[ ${SERVERMODS} != *\; ]]; then # Add server mods to the master mods list, while checking for trailing semicolon
     allMods="${SERVERMODS};"
 	ServerAndClientMods="${SERVERMODS};"
+    ServerMods2="${SERVERMODS};"
 else
     ServerAndClientMods=${SERVERMODS}
     allMods=${SERVERMODS}
@@ -226,6 +227,7 @@ CLIENT_MODS=$(RemoveDuplicates ${CLIENT_MODS}) # Remove duplicate mods from CLIE
 allMods=$(RemoveDuplicates ${allMods}) # Remove duplicate mods from allMods, if present
 allMods=$(echo $allMods | sed -e 's/;/ /g') # Convert from string to array
 ServerAndClientMods=$(RemoveDuplicates ${ServerAndClientMods})
+ServerMods2=$(RemoveDuplicates ${ServerMods2})
 
 # Update everything (server and mods), if specified
 if [[ ${UPDATE_SERVER} == 1 ]]; then
@@ -379,7 +381,7 @@ else
 fi
 
 # Replace Startup Variables
-modifiedStartup=`eval echo $(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')`
+modifiedStartup=`eval echo $(echo ${STARTUP} -serverMod="${ServerMods2}" | sed -e 's/{{/${/g' -e 's/}}/}/g')`
 
 # Start Headless Clients if applicable
 if [[ ${HC_NUM} > 0 ]]; then
@@ -399,6 +401,7 @@ fi
 # Start the Server
 echo -e "\n${GREEN}[STARTUP]:${NC} Starting server with the following startup command:"
 echo -e "${CYAN}${modifiedStartup}${NC}\n"
+echo ${modifiedStartup}
 ${modifiedStartup}
 
 if [ $? -ne 0 ]; then
