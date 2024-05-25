@@ -220,6 +220,7 @@ fi
 if [[ ${SERVERMODS} == *"@"* ]]; then
   ServerMods2=$(echo "${SERVERMODS}" | sed 's/@/;@/2g')
   ServerMods2="${ServerMods2};"
+  echo ${ServerMods2}
 fi
 if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specified optional mods to the mods list, while checking for trailing semicolon
     allMods+="${OPTIONALMODS};"
@@ -233,6 +234,7 @@ allMods=$(RemoveDuplicates ${allMods}) # Remove duplicate mods from allMods, if 
 allMods=$(echo $allMods | sed -e 's/;/ /g') # Convert from string to array
 ServerAndClientMods=$(RemoveDuplicates ${ServerAndClientMods})
 ServerMods2=$(RemoveDuplicates ${ServerMods2})
+echo ${ServerMods2}
 
 # Update everything (server and mods), if specified
 if [[ ${UPDATE_SERVER} == 1 ]]; then
@@ -386,6 +388,8 @@ else
 fi
 
 # Replace Startup Variables
+echo ${ServerMods2}
+echo -serverMod="${ServerMods2}"
 modifiedStartup=`eval echo $(echo ${STARTUP} -serverMod="${ServerMods2}" | sed -e 's/{{/${/g' -e 's/}}/}/g')`
 
 # Start Headless Clients if applicable
