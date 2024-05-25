@@ -215,6 +215,11 @@ if [[ -n ${SERVERMODS} ]] && [[ ${SERVERMODS} != *\; ]]; then # Add server mods 
 else
     ServerAndClientMods=${SERVERMODS}
     allMods=${SERVERMODS}
+	ServerMods2=${SERVERMODS}
+fi
+if [[ ${SERVERMODS} == *"@"* ]]; then
+  ServerMods2=$(echo "${SERVERMODS}" | sed 's/@/;@/2g')
+  ServerMods2="${ServerMods2};"
 fi
 if [[ -n ${OPTIONALMODS} ]] && [[ ${OPTIONALMODS} != *\; ]]; then # Add specified optional mods to the mods list, while checking for trailing semicolon
     allMods+="${OPTIONALMODS};"
